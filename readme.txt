@@ -5,7 +5,7 @@
 */10
 - */3 Summarizing tweets
 - */4 Identifying the most popular activities
-- */3 Adding a text earch interface
+- */3 Adding a text search interface
 
 2. How long, in hours, did it take you to complete this assignment?
 
