@@ -47,16 +47,11 @@ function parseTweets(runkeeper_tweets) {
 	let miscellaneous_count = 0;
 	let written_count = 0;
 
-	const isWritten = text_content => {
-		//user written content is preceded with dash ("-")
-		return text_content.includes('-');
-	}
 	tweet_array.forEach( tweet => {
 		const text_content = tweet.text;
-		
 		if (text_content.startsWith('Just')) {
 			completed_count++;
-			if (isWritten(text_content)){
+			if (tweet.written){
 				written_count++;
 			}
 		}

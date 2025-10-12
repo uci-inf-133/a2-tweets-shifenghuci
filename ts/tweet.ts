@@ -15,8 +15,9 @@ class Tweet {
 
     //returns a boolean, whether the text includes any content written by the person tweeting.
     get written():boolean {
-        //TODO: identify whether the tweet is written
-        return false;
+       //user written content is preceded with dash ("-")
+        const dashIndex = this.text.indexOf('-'); // -1 indicate dash not found
+	    return dashIndex != -1;
     }
 
     get writtenText():string {
@@ -24,7 +25,20 @@ class Tweet {
             return "";
         }
         //TODO: parse the written text from the tweet
-        return "";
+
+        // extract what is betwen "-" and twitter link
+
+        //ex: "Just completed a 7.11 km run - Nice! Running in mot rain 😅🏃🏽‍♀️ https://t.co/8hAIrMxIIQ #Runkeeper"
+
+        //extract out "Nice! Running in mot rain 😅🏃🏽‍♀️"
+
+        //startIndex = indexOf('-') + 1
+        //endIndex = indexOf('https://t.co')
+        //strip afterward
+
+        const startIndex = this.text.indexOf('-') + 1;
+        const endIndex = this.text.indexOf('https://t.co');
+        return this.text.substring(startIndex, endIndex).trim();
     }
 
     get activityType():string {
