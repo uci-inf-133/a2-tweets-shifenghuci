@@ -41,28 +41,19 @@ function parseTweets(runkeeper_tweets) {
 
 	// Log span.completedEvents, span.liveEvents, span.achievements, span.miscellaneous, span.written
 	const total_count = tweet_array.length;
-	let completed_count = 0;
-	let live_count = 0;
-	let achievements_count = 0;
-	let miscellaneous_count = 0;
-	let written_count = 0;
+
+	let counts = {
+		completed_event:0,
+		live_event:0,
+		achievement:0,
+		miscellaneous:0,
+		written:0,
+	}
 
 	tweet_array.forEach( tweet => {
-		const text_content = tweet.text;
-		if (text_content.startsWith('Just')) {
-			completed_count++;
-			if (tweet.written){
-				written_count++;
-			}
-		}
-		else if (text_content.startsWith('Watch')) {
-			live_count++;
-		}
-		else if (text_content.startsWith('Achieved')) {
-			achievements_count++;
-		}
-		else {
-			miscellaneous_count++;
+		counts[tweet.source]++;
+		if (tweet.written) {
+			counts['written']++;
 		}
 	});
 
@@ -71,20 +62,23 @@ function parseTweets(runkeeper_tweets) {
 			{notation: 'fixed', precision: 2,}
 		) + '%')
 	}
-	document.querySelectorAll('span.completedEvents').forEach(s => s.innerText = completed_count);
-	document.querySelector('span.completedEventsPct').innerText = formathPercentage(completed_count / total_count);
 
-	document.querySelector('span.liveEvents').innerText = live_count;
-	document.querySelector('span.liveEventsPct').innerText = formathPercentage(live_count / total_count);
 
-	document.querySelector('span.achievements').innerText = achievements_count;
-	document.querySelector('span.achievementsPct').innerText = formathPercentage(achievements_count / total_count);
+	// fill in statistics
+	document.querySelectorAll('span.completedEvents').forEach(s => s.innerText = counts.completed_event);
+	document.querySelector('span.completedEventsPct').innerText = formathPercentage(counts.completed_event / total_count);
 
-	document.querySelector('span.miscellaneous').innerText = achievements_count;
-	document.querySelector('span.miscellaneousPct').innerText = formathPercentage(miscellaneous_count / total_count);
+	document.querySelector('span.liveEvents').innerText = counts.live_event;
+	document.querySelector('span.liveEventsPct').innerText = formathPercentage(counts.live_event / total_count);
 
-	document.querySelector('span.written').innerText = written_count;
-	document.querySelector('span.writtenPct').innerText = formathPercentage(written_count / completed_count);
+	document.querySelector('span.achievements').innerText = counts.achievement;
+	document.querySelector('span.achievementsPct').innerText = formathPercentage(counts.achievement / total_count);
+
+	document.querySelector('span.miscellaneous').innerText = counts.achievement;
+	document.querySelector('span.miscellaneousPct').innerText = formathPercentage(counts.miscellaneous / total_count);
+
+	document.querySelector('span.written').innerText = counts.written;
+	document.querySelector('span.writtenPct').innerText = formathPercentage(counts.written / counts.completed_event);
 }
 
 //Wait for the DOM to load
