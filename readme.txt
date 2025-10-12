@@ -3,7 +3,7 @@
 1. How many assignment points do you believe you completed (replace the *'s with your numbers)?
 
 */10
-- */3 Summarizing tweets
+- 3/3 Summarizing tweets
 - */4 Identifying the most popular activities
 - */3 Adding a text search interface
 
