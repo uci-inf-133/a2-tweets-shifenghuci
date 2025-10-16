@@ -26,7 +26,7 @@ class Tweet {
     //returns a boolean, whether the text includes any content written by the person tweeting.
     get written():boolean {
        //user written content is preceded with dash ("-")
-        const dashIndex = this.text.indexOf('-'); // -1 indicate dash not found
+        const dashIndex: number = this.text.indexOf('-'); // -1 indicate dash not found
 	    return dashIndex != -1;
     }
 
@@ -46,17 +46,29 @@ class Tweet {
         //endIndex = indexOf('https://t.co')
         //strip afterward
 
-        const startIndex = this.text.indexOf('-') + 1;
-        const endIndex = this.text.indexOf('https://t.co');
+        const startIndex: number = this.text.indexOf('-') + 1;
+        const endIndex: number = this.text.indexOf('https://t.co');
         return this.text.substring(startIndex, endIndex).trim();
+    }
+
+    get systemText():string {
+        // return sytem generated part of the text
+        return this.text.replace(this.writtenText, "").trim();
     }
 
     get activityType():string {
         if (this.source != 'completed_event') {
             return "unknown";
         }
-        //TODO: parse the activity type from the text of the tweet
-        return "";
+
+        //Idea: Have list of diciotnary and check for hitting keyword
+
+        const longer_activities_string: string[] = ['nordic walk', 'strength workout']; // these are longer string which might also trigger shorter string, so filter them first
+        const activities : string[] = ['run', 'walk', 'bike', 'yoga', 'workout', 'Freestyle', 'meditation', 'ski', 'skate'];
+        
+        const acc = [...longer_activities_string, ...activities];
+
+        return acc.find( a => this.systemText.includes(a)) || ""; // return the first element that is included in system_text or return empty string
     }
 
     get distance():number {
@@ -64,6 +76,21 @@ class Tweet {
             return 0;
         }
         //TODO: prase the distance from the text of the tweet
+
+        // Idea: look for mi/km, then distance is the token before it. Remeber to convert to miles
+        // 1 mi = 1.609 km
+
+        const km2mi:number = 1 / 1609;
+
+        const tokens: string[] = this.systemText.split(" ");
+
+        if (tokens.includes("mi")){
+            return Number(tokens.at(tokens.indexOf("mi")-1));
+        }
+        else if (tokens.includes("km")) {
+            return Number(tokens.at(tokens.indexOf("km")-1)) * km2mi;
+        }
+
         return 0;
     }
 
