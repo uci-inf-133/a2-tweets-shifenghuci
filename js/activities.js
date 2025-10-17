@@ -13,7 +13,7 @@ function parseTweets(runkeeper_tweets) {
 	//TODO: create a new array or manipulate tweet_array to create a graph of the number of tweets containing each type of activity.
 
 	// remember to set to const after debugging
-	activity_statistics = {}; // {activityName:string, count:number, maxDistance:number, minDistance:number}
+	const activity_statistics = {}; // {activityName:string, count:number, maxDistance:number, minDistance:number}
 
 	for (const t of tweet_array){
 		const entry = activity_statistics[t.activityType];
@@ -49,6 +49,21 @@ function parseTweets(runkeeper_tweets) {
 
 	// what is the shortest activity by distance?
 	document.getElementById('shortestActivityType').innerText = sort_by_distance[2][0];
+
+	// weekday or weekend longer by distance?
+	tweet_array.forEach( t => {
+		let onSaturday = t.time.getDay() === 6; // let keyword make this only available in this block
+		let onSunday = t.time.getDay() === 0; 
+
+		if (onSaturday || onSunday) { 
+			totalDistance_weekend += t.distance;
+		}
+		else {
+			totalDistance_weekday += t.distance;
+		}
+	})
+
+	document.getElementById('weekdayOrWeekendLonger') = totalDistance_weekday
 
 	activity_vis_spec = {
 	  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
