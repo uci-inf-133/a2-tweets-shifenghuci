@@ -17,3 +17,36 @@ a:active {
 	color: #B32B00;
 	text-decoration: underline;
 }
+
+
+
+/* custom-styling */
+.navbar, main {
+	padding: 20px;
+}
+
+span:not(.navbar-brand) {
+	background-color: yellow;
+	padding-left: 2px;
+	padding-right: 2px;
+}
+
+body {
+	display: flex;
+	margin:0 !important;
+}
+
+.navbar {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	background-color: rgb(72, 93, 197) !important;
+	position: relative;
+}
+
+#logo {
+	width: 20%;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+}
