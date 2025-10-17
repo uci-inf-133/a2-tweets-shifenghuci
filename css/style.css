@@ -33,7 +33,8 @@ span:not(.navbar-brand) {
 
 body {
 	display: flex;
-	margin:0 !important;
+	margin:20px !important;
+	margin-top: 0 !important;
 }
 
 .navbar {
