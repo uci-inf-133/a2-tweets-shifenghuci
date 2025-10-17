@@ -9,6 +9,7 @@ function parseTweets(runkeeper_tweets) {
 		return new Tweet(tweet.text, tweet.created_at);
 	});
 
+	// functional programming for the win!!
 	const activities = tweet_array
 		.filter(tweet => tweet.activityType !== 'unknown') // only convert for completed event
 		.map(tweet => ({ // map each to activity statistics
@@ -17,7 +18,8 @@ function parseTweets(runkeeper_tweets) {
 			dayOfWeek: tweet.time.getDay()
 		}));
 
-	// plot #1: activity vs count
+	
+	// plot #1
 	activity_vis_spec = {
 	  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
 	  "description": "A graph of the number of Tweets containing each type of activity.",
@@ -42,29 +44,30 @@ function parseTweets(runkeeper_tweets) {
 	};
 	vegaEmbed('#activityVis', activity_vis_spec, {actions:false});
 
+
+	// count frequency of each activity type
 	activityCount = {};
 	activities.forEach(t => {
 		activityCount[t.activityType] = (activityCount[t.activityType] || 0) + 1; // undefined || 0 will return 0, this is called short-circuit
 	});
 	
+	// retrieve top three by longest distance
 	const top3_by_distance = Object.entries(activityCount)
 		.sort(([a, a_count], [b, b_count]) => b_count - a_count) //sort by higher count, notice this use the spread syntax
 		.slice(0, 3) // select first three
 		.map(x => x[0]) // preserve only the activityType
 
-	const top3_data = activities.filter(x => top3_by_distance.includes(x.activityType)); // select subset of activities which have one of the three activityType
+	// select subset of activities which have one of the three activityType
+	const top3_data = activities.filter(x => top3_by_distance.includes(x.activityType));
 
-	const dayString = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 	// map index to String to clear visualization
+	const dayString = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 	top3_data.forEach( t => {
 		t.dayOfWeek = dayString[t.dayOfWeek]
 	})
 
-	//TODO: create the visualizations which group the three most-tweeted activities by the day of the week.
-	//Use those visualizations to answer the questions about which activities tended to be longest and when.
-
-	// plot 2: 
+	// plot #2 & 3
 	distance_day_vis_spec = {
 	  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
 	  "description": "A plot of the distances by day of the week for all of the three most tweeted-about activities.",
@@ -94,6 +97,8 @@ function parseTweets(runkeeper_tweets) {
 		}
 	  }
 	};
+
+	// default display
 	vegaEmbed('#activityVis', distance_day_vis_spec, {actions:false});
 
 	const aggregate_btn = document.getElementById('aggregate');
@@ -126,14 +131,16 @@ function parseTweets(runkeeper_tweets) {
 			}
 		}
 
-		isAggregated = !isAggregated;
+		isAggregated = !isAggregated; //toggle
+
 		// finally, rerender
 		vegaEmbed('#activityVis', distance_day_vis_spec, {actions:false});
 	})
 
 
-
+	// how many different number of activities are there?
 	document.getElementById('numberActivities').innerText = Object.entries(activityCount).length;
+	
 	// which are the top three most frequent logged activities?
 	document.getElementById('firstMost').innerText = 'run';
 	document.getElementById('secondMost').innerText = 'walk';
