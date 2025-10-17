@@ -15,7 +15,7 @@ function parseTweets(runkeeper_tweets) {
 		.map(tweet => ({ // map each to activity statistics
 			activityType: tweet.activityType,
 			distance: tweet.distance,
-			dayOfWeek: tweet.time.getDay()
+			dayOfWeek: tweet.time.getDay() // Sun Mon Tue...
 		}));
 
 	
@@ -58,7 +58,7 @@ function parseTweets(runkeeper_tweets) {
 		.map(x => x[0]) // preserve only the activityType
 
 	// select subset of activities which have one of the three activityType
-	const top3_data = activities.filter(x => top3_by_distance.includes(x.activityType));
+	top3_data = activities.filter(x => top3_by_distance.includes(x.activityType));
 
 
 	// map index to String to clear visualization
@@ -99,7 +99,7 @@ function parseTweets(runkeeper_tweets) {
 	};
 
 	// default display
-	vegaEmbed('#activityVis', distance_day_vis_spec, {actions:false});
+	//vegaEmbed('#activityVis', distance_day_vis_spec, {actions:false});
 
 	const aggregate_btn = document.getElementById('aggregate');
 
