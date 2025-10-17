@@ -32,15 +32,17 @@ span:not(.navbar-brand) {
 }
 
 body {
-	display: flex;
 	margin:20px !important;
 	margin-top: 0 !important;
+}
+
+#index {
+	display: flex;
 }
 
 .navbar {
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
 	background-color: rgb(72, 93, 197) !important;
 	position: relative;
 }
@@ -50,4 +52,8 @@ body {
 	position: absolute;
 	bottom: 0;
 	left: 0;
+}
+
+main {
+	width: 100%;
 }
