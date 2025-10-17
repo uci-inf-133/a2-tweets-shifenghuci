@@ -23,6 +23,7 @@ a:active {
 /* custom-styling */
 .navbar, main {
 	padding: 20px;
+	width: 100%;
 }
 
 span:not(.navbar-brand) {
@@ -52,8 +53,4 @@ body {
 	position: absolute;
 	bottom: 0;
 	left: 0;
-}
-
-main {
-	width: 100%;
 }
