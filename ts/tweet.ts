@@ -9,7 +9,7 @@ class Tweet {
 
 	//returns either 'live_event', 'achievement', 'completed_event', or 'miscellaneous'
     get source():string {
-		if (this.text.startsWith('Just')) {
+		if (this.text.startsWith('Just') && !this.text.startsWith('Just linked')) {
 			return 'completed_event';
 		}
 		else if (this.text.startsWith('Watch')) {
@@ -63,11 +63,13 @@ class Tweet {
 
         //Idea: Have list of diciotnary and check for hitting keyword
 
-        const longer_activities_string: string[] = ['nordic walk', 'strength workout']; // these are longer string which might also trigger shorter string, so filter them first
-        const activities : string[] = ['run', 'walk', 'bike', 'yoga', 'workout', 'Freestyle', 'meditation', 'ski', 'skate'];
+        const longer_activities_string: string[] = ['nordic walk', 'strength workout', 'chair ride']; // these are longer string which might also trigger shorter string, so filter them first
+        const activities : string[] = ['run', 'walk', 'bike', 'yoga', 'workout', 'Freestyle', 'meditation', 'ski', 'skate', 'swim', 'row', 'pilates', 'hike', 'activity', 'sports', 'dance', 'boxing'];
         
         const acc = [...longer_activities_string, ...activities];
-
+        if (acc.find( a => this.systemText.includes(a)) === undefined) {
+            console.log(this.systemText);
+        }
         return acc.find( a => this.systemText.includes(a)) || ""; // return the first element that is included in system_text or return empty string
     }
 
