@@ -136,7 +136,6 @@ function parseTweets(runkeeper_tweets) {
 
 	const aggregate_btn = document.getElementById('aggregate');
 	aggregate_btn.style.marginBottom = '20px';
-
 	const distanceVis = document.getElementById('distanceVis');
 	const mean_distanceVis = document.getElementById('distanceVisAggregated');
 
@@ -150,13 +149,15 @@ function parseTweets(runkeeper_tweets) {
 			mean_distanceVis.style.display = 'none'
 			distanceVis.style.display = 'block';
 			// switch btn text
-			aggregate_btn.innerText = 'Show Mean';
+			aggregate_btn.innerText = 'Show mean';
+
 		} else {
 			// switch from distance -> mean distance
 			distanceVis.style.display = 'none'
 			mean_distanceVis.style.display = 'block';
 			// switch btn text
-			aggregate_btn.innerText = 'Show All Activities';
+			aggregate_btn.innerText = 'Show all activities';
+			aggregate_btn.style.maxWidth = '500px';
 		}
 
 		isAggregated = !isAggregated;
