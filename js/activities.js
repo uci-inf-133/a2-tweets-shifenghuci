@@ -9,7 +9,46 @@ function parseTweets(runkeeper_tweets) {
 		return new Tweet(tweet.text, tweet.created_at);
 	});
 
+
 	//TODO: create a new array or manipulate tweet_array to create a graph of the number of tweets containing each type of activity.
+
+	// remember to set to const after debugging
+	activity_statistics = {}; // {activityName:string, count:number, maxDistance:number, minDistance:number}
+
+	for (const t of tweet_array){
+		const entry = activity_statistics[t.activityType];
+		if (entry === undefined) {
+			//create new entries
+			activity_statistics[t.activityType] = {count:1, maxDistance:t.distance, minDistance:t.distance};
+			continue;
+		}
+		else {
+			entry.count += 1;
+			entry.maxDistance = Math.max(entry.maxDistance, t.distance);
+			entry.minDistance = Math.min(entry.minDistance, t.distance);
+		}
+	}
+
+	// how many different activities got logged?
+	document.getElementById('numberActivities').innerText = Object.keys(activity_statistics).length;
+
+	// sort the entries by values, which is count of activities
+	const top_three_most_frequent = Array.from(Object.entries(activity_statistics)) // built array from key-value pairs, which turn into [key, value]
+									.sort(([a, a_stat], [b, b_stat]) => b_stat.count - a_stat.count) // b_count - a_count, larger value indicate b has more count than a
+									.slice(0,3);
+								
+	// which are the top three most frequent logged activities?
+	document.getElementById('firstMost').innerText = top_three_most_frequent[0][0];
+	document.getElementById('secondMost').innerText = top_three_most_frequent[1][0];
+	document.getElementById('thirdMost').innerText = top_three_most_frequent[2][0];
+
+	sort_by_distance = top_three_most_frequent.sort(([a, a_stat], [b, b_stat]) => b_stat.maxDistance - a_stat.maxDistance)
+
+	// what is the longest activity by distance?
+	document.getElementById('longestActivityType').innerText = sort_by_distance[0][0];
+
+	// what is the shortest activity by distance?
+	document.getElementById('shortestActivityType').innerText = sort_by_distance[2][0];
 
 	activity_vis_spec = {
 	  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",

@@ -71,12 +71,14 @@ class Tweet {
         const dash_index: number | -1 = tokens.indexOf("-");
         const with_index: number | -1 = tokens.indexOf("with");
 
+        // filter irrelevant information after dash or with 
         tokens = dash_index !== -1 ? tokens.slice(0, dash_index) : tokens;
         tokens = with_index !== -1 ? tokens.slice(0, with_index) : tokens;
 
         const mi_index: number | -1 = tokens.indexOf("mi");
         const km_index: number | -1 = tokens.indexOf("km");
 
+        // check for sport measured in distance
         if (mi_index !== -1) {
             return tokens.slice(mi_index+1).join(" ");
         }
@@ -90,17 +92,7 @@ class Tweet {
             return tokens.slice(0, in_index).join(" ");
         }
 
-
-        // //Idea: Have list of diciotnary and check for hitting keyword
-
-        // const longer_activities_string: string[] = ['nordic walk', 'strength workout', 'chair ride']; // these are longer string which might also trigger shorter string, so filter them first
-        // const activities : string[] = ['run', 'walk', 'bike', 'yoga', 'workout', 'Freestyle', 'meditation', 'ski', 'skate', 'swim', 'row', 'pilates', 'hike', 'activity', 'sports', 'dance', 'boxing'];
-        
-        // const acc = [...longer_activities_string, ...activities];
-        // if (acc.find( a => this.systemText.includes(a)) === undefined) {
-        //     console.log(this.systemText);
-        // }
-        // return acc.find( a => this.systemText.includes(a)) || ""; // return the first element that is included in system_text or return empty string
+        return ""
     }
 
     get distance():number {
