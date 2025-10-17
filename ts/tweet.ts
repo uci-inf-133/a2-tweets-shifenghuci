@@ -99,12 +99,8 @@ class Tweet {
         if(this.source != 'completed_event') {
             return 0;
         }
-        //TODO: parse the distance from the text of the tweet
 
-        // Idea: look for mi/km, then distance is the token before it. Remember to convert to miles
-        // 1 mi = 1.609 km
-
-        const km2mi:number = 1 / 1.609;
+        const km2mi:number = 1 / 1.609; // notice this is 1.609 < 2 not one thousand six hundred zero nine
 
         const tokens: string[] = this.systemText.split(" ");
 

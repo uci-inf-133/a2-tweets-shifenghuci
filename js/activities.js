@@ -87,7 +87,7 @@ function parseTweets(runkeeper_tweets) {
 		y:{
 			field: 'distance',
 			type: 'quantitative',
-			title: 'Distance'
+			title: 'Distance (miles)'
 		},
 		color:{
 			field: 'activityType',
@@ -98,43 +98,68 @@ function parseTweets(runkeeper_tweets) {
 	  }
 	};
 
-	// default display
-	//vegaEmbed('#activityVis', distance_day_vis_spec, {actions:false});
+	vegaEmbed('#distanceVis', distance_day_vis_spec, {actions:false});
+
+	// plot #3
+		distance_day_vis_spec = {
+	  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+	  "description": "A plot of the mean distances by day of the week for all of the three most tweeted-about activities,",
+	  "data": {
+	    "values": top3_data
+	  },
+	  width: innerWidth * 0.8, // responsive to window size
+	  height: innerHeight * 0.6,
+	  mark: "point",
+	  encoding: {
+		x: {
+			field: 'dayOfWeek',
+			type: 'ordinal', //order by day
+			title: "time (day)",
+			sort: dayString
+		},
+		y:{
+			aggregate: 'mean',
+			field: 'distance',
+			type: 'quantitative',
+			title: 'Mean distance (miles)'
+		},
+		color:{
+			field: 'activityType',
+			type: 'nominal',
+			title: 'Activity'
+
+		}
+	  }
+	};
+
+	vegaEmbed('#distanceVisAggregated', distance_day_vis_spec, {actions:false});
 
 	const aggregate_btn = document.getElementById('aggregate');
+	aggregate_btn.style.marginBottom = '20px';
 
-	let isAggregated = false; //default not aggregated
+	const distanceVis = document.getElementById('distanceVis');
+	const mean_distanceVis = document.getElementById('distanceVisAggregated');
 
+	//default aggregate graph not shown
+	let isAggregated = false;
+	mean_distanceVis.style.display = 'none'
+	
 	aggregate_btn.addEventListener('click', () => {
-		if (!isAggregated){
-			// change btn text
-			aggregate_btn.innerText = "Show All Activities";
-
-			// change encoding
-			distance_day_vis_spec.encoding.y = {
-				aggregate: 'mean',
-				field: 'distance',
-				type: 'quantitative',
-				title: 'Mean distance'
-			}
-		}
-		else {
-			isAggregated = true;
-			// change btn text
-			aggregate_btn.innerText = "Show Mean";
-
-			// change encoding
-			distance_day_vis_spec.encoding.y = {
-				field: 'distance',
-				type: 'quantitative',
-				title: 'Distance'
-			}
+		if (isAggregated){
+			// switch from mean distance -> distance
+			mean_distanceVis.style.display = 'none'
+			distanceVis.style.display = 'block';
+			// switch btn text
+			aggregate_btn.innerText = 'Show Mean';
+		} else {
+			// switch from distance -> mean distance
+			distanceVis.style.display = 'none'
+			mean_distanceVis.style.display = 'block';
+			// switch btn text
+			aggregate_btn.innerText = 'Show All Activities';
 		}
 
-		isAggregated = !isAggregated; //toggle
-
-		// finally, rerender
-		vegaEmbed('#activityVis', distance_day_vis_spec, {actions:false});
+		isAggregated = !isAggregated;
 	})
 
 
