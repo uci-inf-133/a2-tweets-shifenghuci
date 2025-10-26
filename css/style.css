@@ -21,6 +21,12 @@ a:active {
 
 
 /* custom-styling */
+
+td {
+	padding: 10px !important;
+
+}
+
 .navbar, main {
 	padding: 20px;
 	width: 100%;
