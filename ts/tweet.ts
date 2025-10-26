@@ -115,8 +115,7 @@ class Tweet {
     }
 
     getHTMLTableRow(rowNumber:number):string {
-        //TODO: return a table row which summarizes the tweet with a clickable link to the RunKeeper activity
-        const linkPrefix: string = "https://t.co";
+        const linkPrefix: string = "https://t.co"; // all runKeeper link starts with this
         const text_tokens: string[] = this.text.split(' ');
         let clickableText: string = '';
         for (const t of text_tokens){
@@ -124,7 +123,7 @@ class Tweet {
                 clickableText += ` <a href='${t}'>${t}</a>`; // parse link to anchor text
             }
             else {
-                clickableText += ' ' + t;
+                clickableText += ' ' + t; // for other text, concat with regular spacing
             }
         }
         

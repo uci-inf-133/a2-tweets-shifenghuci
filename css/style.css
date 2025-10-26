@@ -32,7 +32,7 @@ td {
 	width: 100%;
 }
 
-span:not(.navbar-brand) {
+html:not([data-bs-theme='dark']) span:not(.navbar-brand) {
 	background-color: yellow;
 	padding-left: 2px;
 	padding-right: 2px;
